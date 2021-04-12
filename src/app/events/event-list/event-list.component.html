@@ -1,0 +1,33 @@
+<h2>Eventos</h2>
+<hr />
+
+<button class="btn btn-primary mb-2" [routerLink]="['/new']">
+  Novo Evento
+</button>
+
+<section>
+  <table class="table" *ngIf="events.length > 0">
+    <tr>
+      <th>Sel</th>
+      <th>Nome</th>
+      <th>Local</th>
+      <th>Data</th>
+      <th>Tipo</th>
+      <th>Ações</th>
+    </tr>
+    <tr *ngFor="let event of events">
+      <td>
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" />
+        </div>
+      </td>
+      <td *ngFor="let coluna of headers">
+        {{ event[coluna] }}
+      </td>
+      <td>
+        <button type="button" class="btn btn-sm btn-danger mr-1">Remover</button
+        ><button type="button" class="btn btn-sm btn-warning">Editar</button>
+      </td>
+    </tr>
+  </table>
+</section>
