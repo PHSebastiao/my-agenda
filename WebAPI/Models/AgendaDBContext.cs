@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI.Models
 {
-    public class EventContext : DbContext
+    public class AgendaDBContext : DbContext
     {
-        public EventContext(DbContextOptions<EventContext> options)
+        public AgendaDBContext(DbContextOptions<AgendaDBContext> options)
             : base(options)
         {
         }
 
-        public DbSet<Event> TodoItems { get; set; }
+        public DbSet<Event> Event { get; set; }
     }
 }

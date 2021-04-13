@@ -13,25 +13,25 @@ namespace WebAPI.Controllers
     [ApiController]
     public class EventsController : ControllerBase
     {
-        private readonly EventContext _context;
+        private readonly AgendaDBContext _context;
 
-        public EventsController(EventContext context)
+        public EventsController(AgendaDBContext context)
         {
             _context = context;
         }
 
         // GET: api/Events
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Event>>> GetTodoItems()
+        public async Task<ActionResult<IEnumerable<Event>>> GetEvent()
         {
-            return await _context.TodoItems.ToListAsync();
+            return await _context.Event.ToListAsync();
         }
 
         // GET: api/Events/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Event>> GetEvent(long id)
+        public async Task<ActionResult<Event>> GetEvent(int id)
         {
-            var @event = await _context.TodoItems.FindAsync(id);
+            var @event = await _context.Event.FindAsync(id);
 
             if (@event == null)
             {
@@ -44,9 +44,9 @@ namespace WebAPI.Controllers
         // PUT: api/Events/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEvent(long id, Event @event)
+        public async Task<IActionResult> PutEvent(int id, Event @event)
         {
-            if (id != @event.Id)
+            if (id != @event.Idevent)
             {
                 return BadRequest();
             }
@@ -77,31 +77,31 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Event>> PostEvent(Event @event)
         {
-            _context.TodoItems.Add(@event);
+            _context.Event.Add(@event);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetEvent), new { id = @event.Id }, @event);
+            return CreatedAtAction(nameof(GetEvent), new { id = @event.Idevent }, @event);
         }
 
         // DELETE: api/Events/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEvent(long id)
+        public async Task<IActionResult> DeleteEvent(int id)
         {
-            var @event = await _context.TodoItems.FindAsync(id);
+            var @event = await _context.Event.FindAsync(id);
             if (@event == null)
             {
                 return NotFound();
             }
 
-            _context.TodoItems.Remove(@event);
+            _context.Event.Remove(@event);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool EventExists(long id)
+        private bool EventExists(int id)
         {
-            return _context.TodoItems.Any(e => e.Id == id);
+            return _context.Event.Any(e => e.Idevent == id);
         }
     }
 }

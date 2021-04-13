@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql;
 using WebAPI.Models;
 
 namespace WebAPI
@@ -20,8 +21,8 @@ namespace WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<EventContext>(opt =>
-                                               opt.UseInMemoryDatabase("EventList"));
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<AgendaDBContext>(opt => opt.UseMySql(connection, ServerVersion.AutoDetect(connection)));
             services.AddControllers();
         }
 
