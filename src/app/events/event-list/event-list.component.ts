@@ -8,7 +8,7 @@ import { Event } from '../shared/event';
   styleUrls: ['./event-list.component.css']
 })
 export class EventListComponent implements OnInit {
-  headers = ['nome', 'local', 'data', 'tipo'];
+  headers = ['titulo', 'local', 'dataInicio', 'tipo'];
   events: Event[] = [];
 
   constructor(private eventService: EventService) { }
@@ -16,5 +16,7 @@ export class EventListComponent implements OnInit {
   ngOnInit(): void {
     this.events = this.eventService.getAll();
   }
-
+  deleteEvent(event): any {
+    this.eventService.delete(event.id);
+  }
 }

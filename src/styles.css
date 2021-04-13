@@ -1,1 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --footer-height: 60px;
+}
+
+html {
+  min-height: 100%;
+  position: relative;
+}
+body {
+  margin-bottom: var(--footer-height);
+}
+#footer {
+  bottom: 0;
+  width: 100%;
+  position: absolute;
+  height: var(--footer-height);
+}

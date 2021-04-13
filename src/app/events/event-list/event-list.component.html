@@ -1,7 +1,7 @@
-<h2>Eventos</h2>
+<h2 class="mt-2">Eventos</h2>
 <hr />
 
-<button class="btn btn-primary mb-2" [routerLink]="['/new']">
+<button class="btn btn-primary mb-3" [routerLink]="['/new']">
   Novo Evento
 </button>
 
@@ -25,9 +25,27 @@
         {{ event[coluna] }}
       </td>
       <td>
-        <button type="button" class="btn btn-sm btn-danger mr-1">Remover</button
-        ><button type="button" class="btn btn-sm btn-warning">Editar</button>
+        <button
+          type="button"
+          class="btn btn-sm btn-danger mr-1"
+          (click)="deleteEvent(event)"
+        >
+          Remover</button
+        ><button
+          type="button"
+          class="btn btn-sm btn-warning"
+          [routerLink]="['/edit', event.id]"
+        >
+          Editar
+        </button>
       </td>
     </tr>
   </table>
+  <div
+    class="alert alert-warning text-center"
+    role="alert"
+    *ngIf="events.length == 0"
+  >
+    Não existem eventos ainda. Adicione um clicando no botão acima!
+  </div>
 </section>
