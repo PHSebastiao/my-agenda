@@ -9,7 +9,7 @@ namespace WebAPI.Models
     public class Event
     {
         [Key]
-        public int Idevent { get; internal set; }
+        public int Idevent { get; set; }
         public string Titulo { get; set; }
         public string Descricao { get; set; }
         public string Local { get; set; }
