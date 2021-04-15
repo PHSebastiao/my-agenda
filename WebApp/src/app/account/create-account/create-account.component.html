@@ -1,0 +1,79 @@
+<div class="form-createacc">
+  <h2 class="text-center display-4 my-4">Criação de Conta</h2>
+  <form (submit)="onSubmit()">
+    <div class="row mb-3">
+      <div class="col">
+        <label for="inputNome" class="form-label">Nome:</label>
+        <input
+          id="inputNome"
+          type="text"
+          name="nome"
+          class="form-control"
+          placeholder="Nome"
+          [(ngModel)]="formCA.nome"
+        />
+      </div>
+      <div class="col">
+        <label for="inputEmail" class="form-label">Email:</label>
+        <input
+          id="inputEmail"
+          type="email"
+          name="email"
+          class="form-control"
+          placeholder="nome@exemplo.com"
+          [(ngModel)]="formCA.email"
+        />
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-6">
+        <label for="inputPwd" class="form-label">Senha:</label>
+        <input
+          id="inputPwd"
+          type="password"
+          name="senha"
+          class="form-control"
+          placeholder="Senha"
+          [(ngModel)]="formCA.password"
+        />
+      </div>
+      <div class="col">
+        <label class="form-label">Gênero</label>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="masc"
+            value="Masculino"
+            id="inputGender1"
+            [(ngModel)]="formCA.genero"
+          />
+          <label class="form-check-label" for="inputGender1"> Masculino </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="fem"
+            value="Feminino"
+            id="inputGender2"
+            [(ngModel)]="formCA.genero"
+          />
+          <label class="form-check-label" for="inputGender2"> Feminino </label>
+        </div>
+      </div>
+      <div class="col-3">
+        <label for="inputDtn" class="form-label">Nascimento:</label>
+        <input
+          id="inputDtn"
+          type="date"
+          class="form-control"
+          name="dtn"
+          [(ngModel)]="formCA.dtn"
+        />
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary mr-2">Salvar</button>
+    <button type="button" class="btn btn-danger" routerLink="">Cancelar</button>
+  </form>
+</div>

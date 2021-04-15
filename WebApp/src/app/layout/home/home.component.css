@@ -1,0 +1,13 @@
+header {
+  height: 60px;
+}
+
+body {
+  margin-bottom: var(--footer-height);
+}
+#footer {
+  bottom: 0;
+  width: 100%;
+  position: absolute;
+  height: var(--footer-height);
+}

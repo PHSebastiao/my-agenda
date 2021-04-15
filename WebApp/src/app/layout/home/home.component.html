@@ -1,0 +1,36 @@
+<section class="d-flex flex-column h-100">
+  <header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" routerLink="/">{{ title }}</a>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/" routerLinkActive="active">Início</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/account" routerLinkActive="active">Conta</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="/">Deslogar</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Begin page content -->
+  <main id="mainPage" class="flex-shrink-0 container">
+    <router-outlet></router-outlet>
+  </main>
+
+  <footer id="footer" class="footer py-3 bg-light">
+    <div class="container text-center">
+      <span class="text-muted">{{title}}™</span>
+    </div>
+  </footer>
+</section>

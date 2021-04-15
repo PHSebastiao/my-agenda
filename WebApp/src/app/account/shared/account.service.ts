@@ -13,14 +13,16 @@ export class AccountService {
       pwd: 'senha',
       dtn: new Date(),
       genero: 'Masculino',
-    }, {
+    },
+    {
       id: 2,
       nome: 'Lorem Ipsum',
       email: 'lorem@ipsum.com',
       pwd: 'senha',
       dtn: new Date(),
       genero: 'Neutro',
-    }, {
+    },
+    {
       id: 3,
       nome: 'Dolor Sit',
       email: 'dolor@sit.com',
@@ -34,5 +36,18 @@ export class AccountService {
 
   getAccounts(): Account[] {
     return this.accounts;
+  }
+
+  login(user: any) {
+    return new Promise((resolve) => {
+      window.localStorage.setItem('token', 'meu-token');
+      resolve(true);
+    });
+  }
+
+  createAccount(account: any) {
+    return new Promise((resolve) => {
+      resolve(true)
+    });
   }
 }

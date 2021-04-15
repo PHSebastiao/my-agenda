@@ -6,4 +6,5 @@ export class Event {
   dataInicio: Date;
   dataFim: Date;
   local: string;
+  participantes: object[];
 }
