@@ -8,6 +8,8 @@ import { AccountService } from '../shared/account.service';
   styleUrls: ['./create-account.component.css'],
 })
 export class CreateAccountComponent implements OnInit {
+  emailRegex = /\S+@\S+\.\S+/;
+  hoje = new Date().toJSON().slice(0, 10);
   formCA = {
     nome: '',
     email: '',
@@ -20,16 +22,17 @@ export class CreateAccountComponent implements OnInit {
     password: this.formCA.password,
   };
 
+
   constructor(private accountService: AccountService, private router: Router) {}
 
   ngOnInit(): void {}
-
   async onSubmit() {
     try {
-      await this.accountService.createAccount(this.formCA)
-      await this.accountService.login(this.login);
+      // await this.accountService.createAccount(this.formCA);
+      // await this.accountService.login(this.login);
 
-      this.router.navigate(['']);
+      // this.router.navigate(['']);
+      console.log(this.formCA);
     } catch (err) {
       console.error(err);
     }
