@@ -26,7 +26,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Event>>> GetEvent()
         {
-            return await _context.Event.ToListAsync();
+            return Ok(await _context.Event.ToListAsync());
         }
 
         // GET: api/Events/5
@@ -40,7 +40,7 @@ namespace WebAPI.Controllers
                 return NotFound();
             }
 
-            return @event;
+            return Ok(@event);
         }
 
         // PUT: api/Events/5
@@ -79,10 +79,15 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Event>> PostEvent(Event @event)
         {
+            Event MesmaData = await _context.Event.FirstOrDefaultAsync(evento => @event.Data == evento.Data);
+            if (@event.Tipo == "Executivo" && MesmaData != null)
+            {
+                return BadRequest(new { message = "Dois eventos executivos não podem compartilhar a mesma data."});
+            }
             _context.Event.Add(@event);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetEvent), new { id = @event.Idevent }, @event);
+            return Ok(CreatedAtAction(nameof(GetEvent), new { id = @event.Idevent }, @event));
         }
 
         // DELETE: api/Events/5

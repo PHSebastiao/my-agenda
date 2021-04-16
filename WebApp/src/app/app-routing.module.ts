@@ -3,7 +3,8 @@ import { RouterModule, Routes, CanActivate } from '@angular/router';
 import { CreateAccountComponent } from './account/create-account/create-account.component';
 import { LoginComponent } from './account/login/login.component';
 import { AuthGuard } from './account/shared/auth.guard';
-import { EventFormComponent } from './events/event-form/event-form.component';
+import { EventAddFormComponent } from './events/event-addform/event-addform.component';
+import { EventEditformComponent } from './events/event-editform/event-editform.component';
 import { EventListComponent } from './events/event-list/event-list.component';
 import { AuthenticationComponent } from './layout/authentication/authentication.component';
 import { HomeComponent } from './layout/home/home.component';
@@ -19,11 +20,11 @@ const routes: Routes = [
       },
       {
         path: 'new',
-        component: EventFormComponent,
+        component: EventAddFormComponent,
       },
       {
         path: 'edit/:id',
-        component: EventFormComponent,
+        component: EventEditformComponent,
       },
     ],
     canActivate: [AuthGuard]

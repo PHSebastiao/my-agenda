@@ -15,5 +15,6 @@ namespace WebAPI.Models
 
         public DbSet<Event> Event { get; set; }
         public DbSet<Conta> Conta { get; set; }
+        public DbSet<ContaEvento> ContaEvento { get; set; }
     }
 }

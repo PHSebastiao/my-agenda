@@ -8,6 +8,7 @@
   <div class="mb-3">
     <label for="inputPwd" class="form-label">Senha:</label>
     <input type="password" class="form-control" name="password" id="inputPwd" placeholder="Senha" [(ngModel)]="login.password" required >
+    <ngx-loading-bar fixed ref="http"></ngx-loading-bar>
   </div>
   <button type="submit" class="btn btn-primary" [disabled]="form.form.invalid">Login</button>
   <button type="button" class="btn btn-info ml-3" routerLink="/create-account">Criar Conta</button>

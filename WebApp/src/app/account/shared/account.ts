@@ -1,8 +1,8 @@
 export class Account {
-  id: number;
+  idconta: number;
   nome: string;
   email: string;
-  pwd: string;
+  password: string;
   dtn: Date;
   genero: string;
 }

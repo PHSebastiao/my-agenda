@@ -1,0 +1,104 @@
+<h2 class="mt-2">Ediçao de Evento</h2>
+<ngx-loading-bar ref="http"></ngx-loading-bar>
+<hr />
+
+<section id="form">
+  <form [formGroup]="meuForm" (ngSubmit)="onSubmit()" *ngIf="meuForm">
+    <div class="row mb-2">
+      <div class="col">
+        <label for="inputTitle" class="form-label">Título</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="titulo"
+          id="inputTitle"
+        />
+      </div>
+      <div class="col">
+        <label for="inputType" class="form-label">Tipo</label>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="tipo"
+            value="Exclusivo"
+            id="choose1"
+          />
+          <label class="form-check-label" for="choose1"> Exclusivo </label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            formControlName="tipo"
+            value="Compartilhado"
+            id="choose2"
+          />
+          <label class="form-check-label" for="choose2"> Compartilhado </label>
+        </div>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col">
+        <label for="eventDescription" class="form-label">Descrição</label>
+        <textarea
+          class="form-control"
+          id="eventDescription"
+          formControlName="descricao"
+          rows="3"
+        ></textarea>
+      </div>
+      <div class="col">
+        <label for="inputDate" class="form-label">Data</label>
+        <div class="input-group mb-2">
+          <input
+            type="date"
+            class="form-control"
+            id="inputDate"
+            formControlName="data"
+            aria-describedby="startText"
+          />
+          <span class="input-group-text text-wrap col-3" id="startText"
+            >Data</span
+          >
+        </div>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col">
+        <label for="inputLocal">Local</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="local"
+          id="inputLocal"
+        />
+      </div>
+      <div class="col">
+        <label for="inputParticipantes" class="form-label">Participantes</label>
+        <select
+          class="form-control"
+          list="participantsOpt"
+          name="participantes"
+          id="inputParticipantes"
+        >
+
+        </select>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary mr-2">Salvar</button>
+    <button type="button" class="btn btn-danger" routerLink="/">
+      Cancelar
+    </button>
+  </form>
+</section>
+
+<!--
+  id: number;--
+  tipo: string;-
+  titulo: string;-
+  descricao: string;-
+  data: Date;-
+  local: string;-
+  participantes: object[];
+-->

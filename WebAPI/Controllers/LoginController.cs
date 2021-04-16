@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,28 +23,22 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public async Task<ActionResult<dynamic>> Authenticate([FromBody]Conta model)
         {
             // Recupera o usuário
-            var user = await _context.Conta.FindAsync(model.Idconta);
+            var user = await _context.Conta.SingleOrDefaultAsync(conta => conta.Email == model.Email);
 
             // Verifica se o usuário existe
             if (user == null)
+                return NotFound(new { message = "Usuário ou senha inválidos" });
+            if (user.Password != model.Password)
                 return NotFound(new { message = "Usuário ou senha inválidos" });
 
             // Gera o Token
             var token = TokenService.GenerateToken(user);
 
-            // Oculta a senha
-            user.Password = "";
-
-            // Retorna os dados
-            return new
-            {
-                user,
-                token
-            };
+            // Retorna o token
+            return Ok(new { token });
         }
         [HttpGet]
         [Authorize]

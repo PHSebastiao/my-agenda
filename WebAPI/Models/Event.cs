@@ -13,7 +13,8 @@ namespace WebAPI.Models
         public string Titulo { get; set; }
         public string Descricao { get; set; }
         public string Local { get; set; }
-        public DateTime DataInicio { get; set; }
-        public DateTime DataFim { get; set; }
+        public string Tipo { get; set; }
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime Data { get ; set; }
     }
 }

@@ -1,53 +1,36 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Event } from './event';
+
+const httpOptions: object = {
+  observe: 'body',
+  headers: new HttpHeaders({
+    Authorization: 'Bearer ' + localStorage.getItem('token'),
+  })
+};
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventService {
-  events: Event[] = [
-    {
-      id: 1,
-      tipo: 'Exclusivo',
-      titulo: 'Evento 1',
-      descricao: 'Evento  é um evento exclusivo',
-      dataInicio: new Date(),
-      dataFim: new Date(),
-      local: 'Praça',
-      participantes: [],
-    },
-  ];
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  getAll(): Event[] {
-    return this.events;
+  getAll(): Observable<any> {
+    return this.http.get(`${environment.api}/Events`, httpOptions);
   }
-  getById(id: number): Event {
-    const event = this.events.find((value) => value.id === id);
-    return event;
+  getById(id: number): Observable<Event> {
+    return this.http.get<Event>(`${environment.api}/Events/${id}`, httpOptions);
   }
-  save(event: Event): any {
-    if (event.id) {
-      const eventArr = this.getById(event.id);
-      eventArr.tipo = event.tipo;
-      eventArr.titulo = event.titulo;
-      eventArr.descricao = event.descricao;
-      eventArr.dataInicio = event.dataInicio;
-      eventArr.dataFim = event.dataFim;
-      eventArr.local = event.local;
-      eventArr.participantes = event.participantes;
+  save(event: any): Observable<any> {
+    if (event.idevent) {
+      return this.http.put(`${environment.api}/Events/${event.idevent}`, event, httpOptions);
     } else {
-      if (this.events.length) {
-        const lastId = this.events[this.events.length - 1].id;
-        event.id = lastId + 1;
-      } else {
-        event.id = 1;
-      }
-      this.events.push(event);
+      return this.http.post(`${environment.api}/Events`, event, httpOptions);
     }
   }
-  delete(id: number): any {
-    const eventIndex = this.events.findIndex((value) => value.id === id);
-    this.events.splice(eventIndex, 1);
+  delete(id: number): Observable<any> {
+    return this.http.delete<Event>(`${environment.api}/Events/${id}`, httpOptions);
   }
 }

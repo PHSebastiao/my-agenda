@@ -13,47 +13,47 @@ namespace WebAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class ContasController : ControllerBase
+    public class ContaEventosController : ControllerBase
     {
         private readonly AgendaDBContext _context;
 
-        public ContasController(AgendaDBContext context)
+        public ContaEventosController(AgendaDBContext context)
         {
             _context = context;
         }
 
-        // GET: api/Contas
+        // GET: api/ContaEventos
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Conta>>> GetConta()
+        public async Task<ActionResult<IEnumerable<ContaEvento>>> GetContaEvento()
         {
-            return Ok(await _context.Conta.ToListAsync());
+            return await _context.ContaEvento.ToListAsync();
         }
 
-        // GET: api/Contas/5
+        // GET: api/ContaEventos/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Conta>> GetConta(int id)
+        public async Task<ActionResult<ContaEvento>> GetContaEvento(int id)
         {
-            var conta = await _context.Conta.FindAsync(id);
+            var contaEvento = await _context.ContaEvento.FindAsync(id);
 
-            if (conta == null)
+            if (contaEvento == null)
             {
                 return NotFound();
             }
 
-            return Ok(conta);
+            return Ok(contaEvento);
         }
 
-        // PUT: api/Contas/5
+        // PUT: api/ContaEventos/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutConta(int id, Conta conta)
+        public async Task<IActionResult> PutContaEvento(int id, ContaEvento contaEvento)
         {
-            if (id != conta.Idconta)
+            if (id != contaEvento.IdContaEventos)
             {
                 return BadRequest();
             }
 
-            _context.Entry(conta).State = EntityState.Modified;
+            _context.Entry(contaEvento).State = EntityState.Modified;
 
             try
             {
@@ -61,7 +61,7 @@ namespace WebAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ContaExists(id))
+                if (!ContaEventoExists(id))
                 {
                     return NotFound();
                 }
@@ -74,38 +74,36 @@ namespace WebAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Contas
+        // POST: api/ContaEventos
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [AllowAnonymous]
-        public async Task<ActionResult<Conta>> PostConta(Conta conta)
+        public async Task<ActionResult<ContaEvento>> PostContaEvento(ContaEvento contaEvento)
         {
-            _context.Conta.Add(conta);
+            _context.ContaEvento.Add(contaEvento);
             await _context.SaveChangesAsync();
-            conta.Password = "";
 
-            return Ok(CreatedAtAction(nameof(GetConta), new { id = conta.Idconta }, conta));
+            return Ok(CreatedAtAction("GetContaEvento", new { id = contaEvento.IdContaEventos }, contaEvento));
         }
 
-        // DELETE: api/Contas/5
+        // DELETE: api/ContaEventos/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteConta(int id)
+        public async Task<IActionResult> DeleteContaEvento(int id)
         {
-            var conta = await _context.Conta.FindAsync(id);
-            if (conta == null)
+            var contaEvento = await _context.ContaEvento.FindAsync(id);
+            if (contaEvento == null)
             {
                 return NotFound();
             }
 
-            _context.Conta.Remove(conta);
+            _context.ContaEvento.Remove(contaEvento);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool ContaExists(int id)
+        private bool ContaEventoExists(int id)
         {
-            return _context.Conta.Any(e => e.Idconta == id);
+            return _context.ContaEvento.Any(e => e.IdContaEventos == id);
         }
     }
 }

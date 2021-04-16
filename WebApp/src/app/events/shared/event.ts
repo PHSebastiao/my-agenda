@@ -1,9 +1,9 @@
 export class Event {
-  id: number;
+  idevent: number;
   titulo: string;
   tipo: string;
   descricao: string;
-  dataInicio: Date;
+  data: Date;
   dataFim: Date;
   local: string;
   participantes: object[];

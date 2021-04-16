@@ -1,12 +1,18 @@
 <h2 class="mt-2">Eventos</h2>
+<ngx-loading-bar ref="http"></ngx-loading-bar>
 <hr />
 
-<button class="btn btn-primary mb-3" [routerLink]="['/new']">
-  Novo Evento
-</button>
+<div class="mb-3">
+  <button type="button" class="btn btn-primary" [routerLink]="['/new']">
+    Novo Evento
+  </button>
+  <button type="button" class="btn btn-success ml-2" (click)="reloadEvents()">
+    Recarregar Lista
+  </button>
+</div>
 
 <section>
-  <table class="table" *ngIf="events.length > 0">
+  <table class="table" *ngIf="events">
     <tr>
       <th>Sel</th>
       <th>Nome</th>
@@ -34,7 +40,7 @@
         ><button
           type="button"
           class="btn btn-sm btn-warning"
-          [routerLink]="['/edit', event.id]"
+          [routerLink]="['/edit', event.idevent]"
         >
           Editar
         </button>

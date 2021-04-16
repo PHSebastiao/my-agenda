@@ -12,17 +12,18 @@ export class LoginComponent implements OnInit {
     email: '',
     password: '',
   };
+  result;
 
   constructor(private accountService: AccountService, private router: Router) {}
 
   ngOnInit(): void {}
 
-  async onSubmit() {
+  async onSubmit(): Promise<any> {
     try {
-      const result = await this.accountService.login(this.login);
-      console.log(`Login efetuado: ${result}`);
-
-      this.router.navigate(['']);
+      await this.accountService.login(this.login).subscribe((data: any) => {
+        localStorage.setItem('token', data.token);
+        this.router.navigate(['']);
+      });
     } catch (err) {
       console.error(err);
     }

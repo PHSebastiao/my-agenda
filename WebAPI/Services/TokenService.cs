@@ -5,6 +5,7 @@ using System.Text;
 using WebAPI.Models;
 using Microsoft.IdentityModel.Tokens;
 using WebAPI;
+using System.Security.Cryptography;
 
 namespace WebAPI.Services
 {

@@ -1,53 +1,44 @@
+import { environment } from './../../../environments/environment';
 import { Account } from './account';
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccountService {
-  accounts: Account[] = [
-    {
-      id: 1,
-      nome: 'Pedro Henrique',
-      email: 'pedro@gmail.com',
-      pwd: 'senha',
-      dtn: new Date(),
-      genero: 'Masculino',
-    },
-    {
-      id: 2,
-      nome: 'Lorem Ipsum',
-      email: 'lorem@ipsum.com',
-      pwd: 'senha',
-      dtn: new Date(),
-      genero: 'Neutro',
-    },
-    {
-      id: 3,
-      nome: 'Dolor Sit',
-      email: 'dolor@sit.com',
-      pwd: 'senha',
-      dtn: new Date(),
-      genero: 'Neturo',
-    },
-  ];
+  constructor(private http: HttpClient, private router: Router) {}
 
-  constructor() {}
-
-  getAccounts(): Account[] {
-    return this.accounts;
-  }
-
-  login(user: any) {
-    return new Promise((resolve) => {
-      window.localStorage.setItem('token', 'meu-token');
-      resolve(true);
+  getAccounts(): any {
+    return this.http.get<Account[]>(`${environment.api}/Contas`, {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      }),
     });
   }
 
-  createAccount(account: any) {
-    return new Promise((resolve) => {
-      resolve(true)
+  login(user: any): Observable<any> {
+    try {
+      return this.http.post(`${environment.api}/Login`, user, {
+        headers: new HttpHeaders(),
+        observe: 'body',
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  verifyLogin(auth: string): Observable<boolean> {
+    return this.http.get<boolean>(`${environment.api}/Login`, {
+      headers: new HttpHeaders({
+        Authorization: auth,
+      }),
+      observe: 'body',
     });
+  }
+
+  createAccount(account: any): any {
+    return this.http.post(`${environment.api}/Contas`, account);
   }
 }

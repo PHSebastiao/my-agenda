@@ -22,17 +22,18 @@ export class CreateAccountComponent implements OnInit {
     password: this.formCA.password,
   };
 
-
   constructor(private accountService: AccountService, private router: Router) {}
 
   ngOnInit(): void {}
-  async onSubmit() {
+  async onSubmit(): Promise<any> {
     try {
-      // await this.accountService.createAccount(this.formCA);
-      // await this.accountService.login(this.login);
+      await this.accountService.createAccount(this.formCA).subscribe(() => {
+        this.accountService.login(this.login).subscribe((data: any) => {
+          localStorage.setItem('token', data.token);
+        });
 
-      // this.router.navigate(['']);
-      console.log(this.formCA);
+        this.router.navigate(['']);
+      });
     } catch (err) {
       console.error(err);
     }
