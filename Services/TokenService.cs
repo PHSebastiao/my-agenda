@@ -2,12 +2,12 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using WebAPI.Models;
+using MyAgenda.Models;
 using Microsoft.IdentityModel.Tokens;
-using WebAPI;
+using MyAgenda;
 using System.Security.Cryptography;
 
-namespace WebAPI.Services
+namespace MyAgenda.Services
 {
     public static class TokenService
     {

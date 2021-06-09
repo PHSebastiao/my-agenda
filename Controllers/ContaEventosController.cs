@@ -6,18 +6,19 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebAPI.Models;
+using MyAgenda.Models;
+using MyAgenda.Data;
 
-namespace WebAPI.Controllers
+namespace MyAgenda.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
     public class ContaEventosController : ControllerBase
     {
-        private readonly AgendaDBContext _context;
+        private readonly MyAgendaContext _context;
 
-        public ContaEventosController(AgendaDBContext context)
+        public ContaEventosController(MyAgendaContext context)
         {
             _context = context;
         }

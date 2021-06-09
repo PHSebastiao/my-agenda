@@ -10,22 +10,22 @@ using MyAgenda.Models;
 
 namespace MyAgenda.Controllers
 {
-    public class ContasController : Controller
+    public class EventosController : Controller
     {
         private readonly MyAgendaContext _context;
 
-        public ContasController(MyAgendaContext context)
+        public EventosController(MyAgendaContext context)
         {
             _context = context;
         }
 
-        // GET: Contas
+        // GET: Eventos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Conta.ToListAsync());
+            return View(await _context.Event.ToListAsync());
         }
 
-        // GET: Contas/Details/5
+        // GET: Eventos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace MyAgenda.Controllers
                 return NotFound();
             }
 
-            var conta = await _context.Conta
-                .FirstOrDefaultAsync(m => m.Idconta == id);
-            if (conta == null)
+            var evento = await _context.Event
+                .FirstOrDefaultAsync(m => m.Idevento == id);
+            if (evento == null)
             {
                 return NotFound();
             }
 
-            return View(conta);
+            return View(evento);
         }
 
-        // GET: Contas/Create
+        // GET: Eventos/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Contas/Create
+        // POST: Eventos/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Idconta,Nome,Email,Senha,Dtn,Genero")] Conta conta)
+        public async Task<IActionResult> Create([Bind("Idevento,Titulo,Descricao,Local,Tipo,Data")] Evento evento)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(conta);
+                _context.Add(evento);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(conta);
+            return View(evento);
         }
 
-        // GET: Contas/Edit/5
+        // GET: Eventos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace MyAgenda.Controllers
                 return NotFound();
             }
 
-            var conta = await _context.Conta.FindAsync(id);
-            if (conta == null)
+            var evento = await _context.Event.FindAsync(id);
+            if (evento == null)
             {
                 return NotFound();
             }
-            return View(conta);
+            return View(evento);
         }
 
-        // POST: Contas/Edit/5
+        // POST: Eventos/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Idconta,Nome,Email,Senha,Dtn,Genero")] Conta conta)
+        public async Task<IActionResult> Edit(int id, [Bind("Idevento,Titulo,Descricao,Local,Tipo,Data")] Evento evento)
         {
-            if (id != conta.Idconta)
+            if (id != evento.Idevento)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace MyAgenda.Controllers
             {
                 try
                 {
-                    _context.Update(conta);
+                    _context.Update(evento);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ContaExists(conta.Idconta))
+                    if (!EventoExists(evento.Idevento))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace MyAgenda.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(conta);
+            return View(evento);
         }
 
-        // GET: Contas/Delete/5
+        // GET: Eventos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace MyAgenda.Controllers
                 return NotFound();
             }
 
-            var conta = await _context.Conta
-                .FirstOrDefaultAsync(m => m.Idconta == id);
-            if (conta == null)
+            var evento = await _context.Event
+                .FirstOrDefaultAsync(m => m.Idevento == id);
+            if (evento == null)
             {
                 return NotFound();
             }
 
-            return View(conta);
+            return View(evento);
         }
 
-        // POST: Contas/Delete/5
+        // POST: Eventos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var conta = await _context.Conta.FindAsync(id);
-            _context.Conta.Remove(conta);
+            var evento = await _context.Event.FindAsync(id);
+            _context.Event.Remove(evento);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ContaExists(int id)
+        private bool EventoExists(int id)
         {
-            return _context.Conta.Any(e => e.Idconta == id);
+            return _context.Event.Any(e => e.Idevento == id);
         }
     }
 }

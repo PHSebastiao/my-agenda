@@ -4,17 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebAPI.Models
+namespace MyAgenda.Models
 {
-    public class Event
+    public class Evento
     {
         [Key]
-        public int Idevent { get; set; }
+        public int Idevento { get; set; }
         public string Titulo { get; set; }
         public string Descricao { get; set; }
         public string Local { get; set; }
         public string Tipo { get; set; }
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         public DateTime Data { get ; set; }
     }
 }

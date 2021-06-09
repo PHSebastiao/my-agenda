@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using MyAgenda.Models;
 
-namespace WebAPI.Models
+namespace MyAgenda.Data
 {
-    public class AgendaDBContext : DbContext
+    public class MyAgendaContext : DbContext
     {
-        public AgendaDBContext(DbContextOptions<AgendaDBContext> options)
+        public MyAgendaContext (DbContextOptions<MyAgendaContext> options)
             : base(options)
         {
         }
 
-        public DbSet<Event> Event { get; set; }
         public DbSet<Conta> Conta { get; set; }
+        public DbSet<Evento> Event { get; set; }
         public DbSet<ContaEvento> ContaEvento { get; set; }
     }
 }

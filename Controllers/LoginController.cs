@@ -6,18 +6,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebAPI.Models;
-using WebAPI.Services;
+using MyAgenda.Models;
+using MyAgenda.Data;
+using MyAgenda.Services;
 
-namespace WebAPI.Controllers
+namespace MyAgenda.Controllers
 {
     [Route("api/Login")]
     [ApiController]
     public class LoginController : Controller
     {
-        private readonly AgendaDBContext _context;
+        private readonly MyAgendaContext _context;
 
-        public LoginController(AgendaDBContext context)
+        public LoginController(MyAgendaContext context)
         {
             _context = context;
         }
@@ -31,7 +32,7 @@ namespace WebAPI.Controllers
             // Verifica se o usuário existe
             if (user == null)
                 return NotFound(new { message = "Usuário ou senha inválidos" });
-            if (user.Password != model.Password)
+            if (user.Senha != model.Senha)
                 return NotFound(new { message = "Usuário ou senha inválidos" });
 
             // Gera o Token

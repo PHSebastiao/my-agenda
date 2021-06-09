@@ -8,9 +8,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Pomelo.EntityFrameworkCore.MySql;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using WebAPI.Models;
+using MyAgenda.Models;
+using MyAgenda.Data;
 
-namespace WebAPI
+namespace MyAgenda
 {
     public class Startup
     {
@@ -23,10 +24,13 @@ namespace WebAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<AgendaDBContext>(opt => opt.UseMySql(connection, ServerVersion.AutoDetect(connection)));
             services.AddCors();
-            services.AddControllers();
+            services.AddControllersWithViews();
+
+            string connection = Configuration.GetConnectionString("MyAgendaContext");
+            services.AddDbContext<MyAgendaContext>(options =>
+                    options.UseMySql(connection, ServerVersion.AutoDetect(connection)));
+            services.AddMvc();
 
             var key = Encoding.ASCII.GetBytes(Settings.Secret);
             services.AddAuthentication(x =>
@@ -56,6 +60,7 @@ namespace WebAPI
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseCors(x => x
@@ -68,7 +73,9 @@ namespace WebAPI
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Contas}/{action=Index}/{id?}");
             });
         }
     }
