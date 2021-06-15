@@ -17,6 +17,7 @@ namespace MyAgenda.Models
         [Display(Name = "Data de Nascimento")]
         [DataType(DataType.Date)]
         public DateTime Dtn { get; set; }
+        [Display(Name = "Gênero")]
         public string Genero { get; set; }
     }
 }
