@@ -56,6 +56,14 @@ namespace MyAgenda.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idevento,Titulo,Descricao,Local,Tipo,Data")] Evento evento)
         {
+
+            Evento MesmaData = await _context.Event.FirstOrDefaultAsync(e => evento.Data == e.Data);
+            if (evento.Tipo == "Exclusivo" && MesmaData != null)
+            {
+                TempData["message"] = "Dois eventos exclusivos";
+                return View(evento);
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(evento);
@@ -91,6 +99,13 @@ namespace MyAgenda.Controllers
             if (id != evento.Idevento)
             {
                 return NotFound();
+            }
+
+            Evento MesmaData = await _context.Event.FirstOrDefaultAsync(e => evento.Data == e.Data);
+            if (evento.Tipo == "Exclusivo" && MesmaData != null)
+            {
+                TempData["message"] = "Dois eventos exclusivos";
+                return View(evento);
             }
 
             if (ModelState.IsValid)

@@ -10,13 +10,19 @@ namespace MyAgenda.Models
     {
         [Key]
         public int Idconta { get; set; }
+        [Required]
+        [StringLength(60, MinimumLength = 3)]
         public string Nome { get; set; }
+        [Required]
+        [StringLength(200)]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+        [Required]
+        [StringLength(20, MinimumLength = 3)]
         public string Senha { get; set; }
         [Display(Name = "Data de Nascimento")]
         [DataType(DataType.Date)]
-        public DateTime Dtn { get; set; }
+        public DateTime? Dtn { get; set; }
         [Display(Name = "Gênero")]
         public string Genero { get; set; }
     }

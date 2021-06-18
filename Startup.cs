@@ -10,6 +10,7 @@ using Pomelo.EntityFrameworkCore.MySql;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using MyAgenda.Models;
 using MyAgenda.Data;
+using BundlerMinifier.TagHelpers;
 
 namespace MyAgenda
 {
@@ -31,6 +32,10 @@ namespace MyAgenda
             services.AddDbContext<MyAgendaContext>(options =>
                     options.UseMySql(connection, ServerVersion.AutoDetect(connection)));
             services.AddMvc();
+            services.AddBundles(options =>
+            {
+                options.AppendVersion = true;
+            });
 
             var key = Encoding.ASCII.GetBytes(Settings.Secret);
             services.AddAuthentication(x =>

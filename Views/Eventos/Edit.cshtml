@@ -61,4 +61,12 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+            $(document).ready(function () {
+                if ('@TempData["message"]' == "Dois eventos exclusivos"){
+                    toastr.error('Dois eventos exclusivos não podem compartilhar a mesma data.');
+               }
+               else{ }
+            });
+    </script>
 }

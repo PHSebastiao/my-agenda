@@ -534,3 +534,5 @@ FodyWeavers.xsd
 *.tlog
 
 # End of https://www.toptal.com/developers/gitignore/api/angular,visualstudio,visualstudiocode,aspnetcore
+
+wwwroot/bundles/
