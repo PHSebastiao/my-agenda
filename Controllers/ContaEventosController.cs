@@ -1,21 +1,18 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using MyAgenda.Data;
+using MyAgenda.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MyAgenda.Models;
-using MyAgenda.Data;
+using System;
 
 namespace MyAgenda.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [Authorize]
-    public class ContaEventosController : ControllerBase
+    public class ContaEventosController : Controller
     {
+
         private readonly MyAgendaContext _context;
 
         public ContaEventosController(MyAgendaContext context)
@@ -23,88 +20,51 @@ namespace MyAgenda.Controllers
             _context = context;
         }
 
-        // GET: api/ContaEventos
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<ContaEvento>>> GetContaEvento()
+        // GET: ContaEventos/5
+        public async Task<List<ContaEvento>> Index(int Idevento)
         {
-            return await _context.ContaEvento.ToListAsync();
+            return await _context.ContaEvento.Where(ce => ce.IdEvento == Idevento).ToListAsync();
         }
 
-        // GET: api/ContaEventos/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ContaEvento>> GetContaEvento(int id)
+        // GET: ContaEventos/Create
+        public void Create()
         {
-            var contaEvento = await _context.ContaEvento.FindAsync(id);
 
-            if (contaEvento == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(contaEvento);
         }
 
-        // PUT: api/ContaEventos/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutContaEvento(int id, ContaEvento contaEvento)
-        {
-            if (id != contaEvento.IdContaEventos)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(contaEvento).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ContaEventoExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/ContaEventos
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        // POST: ContaEventos/Create
         [HttpPost]
-        public async Task<ActionResult<ContaEvento>> PostContaEvento(ContaEvento contaEvento)
+        public async Task<IActionResult> Create(ContaEvento data)
         {
-            _context.ContaEvento.Add(contaEvento);
-            await _context.SaveChangesAsync();
-
-            return Ok(CreatedAtAction("GetContaEvento", new { id = contaEvento.IdContaEventos }, contaEvento));
-        }
-
-        // DELETE: api/ContaEventos/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteContaEvento(int id)
-        {
-            var contaEvento = await _context.ContaEvento.FindAsync(id);
-            if (contaEvento == null)
+            if (!ModelState.IsValid)
             {
                 return NotFound();
             }
+            _context.Add(data);
+            await _context.SaveChangesAsync();
+            var contaEvento = _context.ContaEvento.FirstOrDefault(e => data.IdConta == e.IdConta && e.IdEvento == data.IdEvento);
 
+            IQueryable<Conta> contas = _context.Conta.AsQueryable();
+            IQueryable<ContaEvento> contaeventos = _context.ContaEvento.AsQueryable();
+            var query = from c in contas
+                        join ce in contaeventos
+                        on c.Idconta equals ce.IdConta
+                        where ce.IdContaEventos == contaEvento.IdContaEventos
+                        select new ContaEventoDTO { Nome = c.Nome, Idconta = c.Idconta, IdContaEventos = ce.IdContaEventos };
+
+            return Ok(query);
+        }
+
+        // POST: ContaEventos/Delete/5
+        [HttpPost]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            var contaEvento = await _context.ContaEvento.FindAsync(id);
             _context.ContaEvento.Remove(contaEvento);
             await _context.SaveChangesAsync();
-
-            return NoContent();
+            return Ok();
         }
 
-        private bool ContaEventoExists(int id)
-        {
-            return _context.ContaEvento.Any(e => e.IdContaEventos == id);
-        }
+
     }
 }

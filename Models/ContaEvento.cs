@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MyAgenda.Models
 {
@@ -11,6 +7,8 @@ namespace MyAgenda.Models
         [Key]
         public int IdContaEventos { get; set; }
         public int IdEvento { get; set; }
+        //public Evento Evento { get; set; }
         public int IdConta { get; set; }
+        //public Conta Conta { get; set; }
     }
 }

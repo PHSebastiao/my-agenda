@@ -1,9 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.ComponentModel.DataAnnotations;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 
 namespace MyAgenda.Models
 {
@@ -27,5 +24,6 @@ namespace MyAgenda.Models
         [Required]
         [DataType(DataType.Date)]
         public DateTime Data { get ; set; }
+        //public virtual ICollection<ContaEvento> ContaEventos { get; set; }
     }
 }

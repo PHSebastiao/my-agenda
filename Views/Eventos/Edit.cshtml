@@ -2,58 +2,81 @@
 
 @{
     ViewData["Title"] = "Edit";
+    IEnumerable<Conta> contas = ViewData["Contas"] as IEnumerable<Conta>;
+    var contaEventos = ViewData["ContaEventos"] as IEnumerable<ContaEventoDTO>;
 }
 
 <h1>Edit</h1>
 
 <h4>Evento</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Idevento" />
-            <div class="form-group">
-                <label asp-for="Titulo" class="control-label"></label>
-                <input asp-for="Titulo" class="form-control" />
-                <span asp-validation-for="Titulo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Descricao" class="control-label"></label>
-                <input asp-for="Descricao" class="form-control" />
-                <span asp-validation-for="Descricao" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Local" class="control-label"></label>
-                <input asp-for="Local" class="form-control" />
-                <span asp-validation-for="Local" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Tipo" class="control-label"></label>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" asp-for="Tipo" id="TipoExclusivo" value="Exclusivo">
-                    <label class="form-check-label" for="TipoExclusivo">
-                        Exclusivo
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" asp-for="Tipo" id="TipoCompartilhado" value="Compartilhado">
-                    <label class="form-check-label" for="TipoCompartilhado">
-                        Compartilhado
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Data" class="control-label"></label>
-                <input asp-for="Data" class="form-control" />
-                <span asp-validation-for="Data" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Idevento" />
+    <div class="row">
+        <div class="form-group col-4">
+            <label asp-for="Titulo" class="control-label"></label>*
+            <input asp-for="Titulo" class="form-control" />
+            <span asp-validation-for="Titulo" class="text-danger"></span>
+        </div>
+        <div class="form-group col">
+            <label asp-for="Descricao" class="control-label"></label>*
+            <textarea asp-for="Descricao" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Descricao" class="text-danger"></span>
+        </div>
     </div>
-</div>
+    <div class="row">
+        <div class="form-group col">
+            <label asp-for="Local" class="control-label"></label>
+            <input asp-for="Local" class="form-control" />
+            <span asp-validation-for="Local" class="text-danger"></span>
+        </div>
+        <div class="form-group col">
+            <label asp-for="Tipo" class="control-label"></label>*
+            <div class="form-check">
+                <input class="form-check-input" type="radio" asp-for="Tipo" id="TipoExclusivo" value="Exclusivo" checked>
+                <label class="form-check-label" for="TipoExclusivo">
+                    Exclusivo
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" asp-for="Tipo" id="TipoCompartilhado" value="Compartilhado">
+                <label class="form-check-label" for="TipoCompartilhado">
+                    Compartilhado
+                </label>
+            </div>
+        </div>
+        <div class="form-group col">
+            <label asp-for="Data" class="control-label"></label>*
+            <input asp-for="Data" class="form-control" />
+            <span asp-validation-for="Data" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group" id="participantes-select">
+        <label class="control-label" for="Participantes">Participantes</label>
+        <select class="form-select form-select-lg form-control mb-3" id="Participantes" aria-label="Selecionar participantes">
+            <option id="select-participantes">-- Selecione os participantes --</option>
+            @foreach (Conta conta in contas)
+            {
+                if (!contaEventos.Select(x => x.Idconta).Contains(conta.Idconta))
+                {
+                    <option value="@conta.Idconta" id="@conta.Idconta">@conta.Nome</option>
+                }
+            }
+        </select>
+        <div id="conta-eventos">
+            @foreach (ContaEventoDTO contaEvento in contaEventos)
+            {
+                <div class="conta-evento" data-idconta="@contaEvento.Idconta" data-contanome="@contaEvento.Nome">
+                    <span>@contaEvento.Nome <img src="~/img/x.png" width="12" class="clickable" id="@contaEvento.IdContaEventos" /></span>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
 
 <div>
     <a asp-action="Index">Back to List</a>
@@ -61,12 +84,48 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script type="text/javascript">
-            $(document).ready(function () {
-                if ('@TempData["message"]' == "Dois eventos exclusivos"){
-                    toastr.error('Dois eventos exclusivos não podem compartilhar a mesma data.');
-               }
-               else{ }
+<script type="text/javascript">
+        $(document).ready(function () {
+            if ('@TempData["message"]') {
+                toastr.error('@TempData["message"]');
+            }
+
+            $("#conta-eventos").on("click", ".clickable", function () {
+                let objeto = $(this).closest("div.conta-evento");
+                let idcontaevento = parseInt($(this)[0].id);
+                let idconta = objeto.attr("data-idconta");
+                let nome = objeto.attr("data-contanome");
+                console.log(nome)
+                $.ajax({
+                    async: true,
+                    type: 'post',
+                    data: { id: idcontaevento },
+                    url: '/ContaEventos/Delete/'
+                }).done(function () {
+                    objeto.remove();
+                    $("#Participantes")
+                        .append(`<option value="${idconta}" id="${idconta}">${nome}</option>`)
+                })
             });
-    </script>
+
+                $("#participantes-select").on("change", "#Participantes", function() {
+                    let value = $(this).val();
+                    if (value === "-- Selecione os participantes --") return;
+                    let data = { IdConta: value, IdEvento: @Model.Idevento};
+                    console.log("alo")
+                    $.ajax({
+                        async: true,
+                        type: 'POST',
+                        data: data,
+                        url: '/ContaEventos/Create/',
+                        success: function (res) {
+                            console.log(res)
+                            $(`option[value="${res[0].idconta}"]`).remove();
+                            $("#conta-eventos")
+                                .append(`<div class="conta-evento" data-idconta="${res[0].idconta}" data-contanome="${res[0].nome}"> <span>${res[0].nome} <img src="/img/x.png" width="12" class="clickable" id="${res[0].idContaEventos}" /></span> </div>`)
+                        }
+                    })
+                });
+            });
+</script>
 }

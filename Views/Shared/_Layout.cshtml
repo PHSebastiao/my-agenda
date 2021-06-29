@@ -6,7 +6,6 @@
     <title>@ViewData["Title"] - My Agenda</title>
 
     <bundle name="wwwroot/bundles/site.min.css" />
-    <bundle name="wwwroot/bundles/bundles.min.js" />
 </head>
 <body>
     <header>
@@ -42,7 +41,10 @@
         </div>
     </footer>
 
+    <bundle name="wwwroot/bundles/bundles.min.js" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
-    
+
 </body>
 </html>

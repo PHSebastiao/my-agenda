@@ -1,16 +1,14 @@
-using System.Text;
+using BundlerMinifier.TagHelpers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Pomelo.EntityFrameworkCore.MySql;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using MyAgenda.Models;
 using MyAgenda.Data;
-using BundlerMinifier.TagHelpers;
+using System.Text;
 
 namespace MyAgenda
 {

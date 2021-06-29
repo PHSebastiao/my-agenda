@@ -1,8 +1,6 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyAgenda.Models
 {
@@ -25,5 +23,12 @@ namespace MyAgenda.Models
         public DateTime? Dtn { get; set; }
         [Display(Name = "Gênero")]
         public string Genero { get; set; }
+
+        //public virtual ICollection<ContaEvento> ContaEventos { get; set; }
+
+        public static implicit operator Conta(List<Conta> v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

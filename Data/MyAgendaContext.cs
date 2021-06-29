@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MyAgenda.Models;
 
 namespace MyAgenda.Data
@@ -15,7 +11,7 @@ namespace MyAgenda.Data
         }
 
         public DbSet<Conta> Conta { get; set; }
-        public DbSet<Evento> Event { get; set; }
+        public DbSet<Evento> Evento { get; set; }
         public DbSet<ContaEvento> ContaEvento { get; set; }
     }
 }
