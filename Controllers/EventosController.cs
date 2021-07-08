@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyAgenda.Data;
 using MyAgenda.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -50,28 +51,29 @@ namespace MyAgenda.Controllers
         }
 
         // POST: Eventos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Idevento,Titulo,Descricao,Local,Tipo,Data")] Evento evento)
+        public async Task<IActionResult> Create(Evento evento, ContaEvento[] contaEvento = null)
         {
             IQueryable<Conta> contas = _context.Conta.AsQueryable();
 
+            ViewData["Contas"] = contas;
             if (VerificaMesmaData(evento))
             {
-                TempData["message"] = "Dois eventos exclusivos não podem compartilhar a mesma data.";
-                ViewData["Contas"] = contas;
-                return View(evento);
+                //TempData["message"] = "Dois eventos exclusivos não podem compartilhar a mesma data.";
+                return BadRequest("Dois eventos exclusivos não podem compartilhar a mesma data.");
             }
 
             if (ModelState.IsValid)
             {
                 _context.Add(evento);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                for (int i = 0; i < contaEvento.Length; i++)
+                {
+                    _context.ContaEvento.Add(new ContaEvento { IdConta = contaEvento[i].IdConta, IdEvento = evento.Idevento});
+                }
+                await _context.SaveChangesAsync();
+                return Ok();
             }
-            ViewData["Contas"] = contas;
             return View(evento);
         }
 
@@ -94,15 +96,10 @@ namespace MyAgenda.Controllers
 
             ViewData["Contas"] = await contas.ToListAsync();
             ViewData["ContaEventos"] = await GetContaEventos(contas, contaeventos, id).ToListAsync();
-            //var contaEventosNomes = _context.ContaEvento.Include(x => x.Conta)
-            //    .Where(x => x.IdEvento == id)
-            //    .Select(x => new { x.Conta.Idconta, x.Conta.Nome });
             return View(evento);
         }
 
         // POST: Eventos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Idevento,Titulo,Descricao,Local,Tipo,Data")] Evento evento)
@@ -185,7 +182,7 @@ namespace MyAgenda.Controllers
 
         private bool VerificaMesmaData(Evento evento)
         {
-            var eventosNaMesmaData = _context.Evento.Where(e => evento.Data == e.Data && e.Idevento != evento.Idevento);
+            var eventosNaMesmaData = _context.Evento.Where(e => evento.Data == e.Data && e.Idevento != evento.Idevento && e.Tipo == "Exclusivo");
             if (evento.Tipo == "Exclusivo" && eventosNaMesmaData.Any())
             {
                 return true;

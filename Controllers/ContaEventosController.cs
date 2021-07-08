@@ -26,12 +26,6 @@ namespace MyAgenda.Controllers
             return await _context.ContaEvento.Where(ce => ce.IdEvento == Idevento).ToListAsync();
         }
 
-        // GET: ContaEventos/Create
-        public void Create()
-        {
-
-        }
-
         // POST: ContaEventos/Create
         [HttpPost]
         public async Task<IActionResult> Create(ContaEvento data)

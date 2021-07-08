@@ -50,8 +50,6 @@ namespace MyAgenda.Controllers
         }
 
         // POST: Contas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Idconta,Nome,Email,Senha,Dtn,Genero")] Conta conta)
@@ -82,8 +80,6 @@ namespace MyAgenda.Controllers
         }
 
         // POST: Contas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Idconta,Nome,Email,Senha,Dtn,Genero")] Conta conta)

@@ -74,7 +74,7 @@
         </div>
     </div>
     <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-primary" />
+        <input type="submit" value="Edit" class="btn btn-primary" />
     </div>
 </form>
 
@@ -95,7 +95,6 @@
                 let idcontaevento = parseInt($(this)[0].id);
                 let idconta = objeto.attr("data-idconta");
                 let nome = objeto.attr("data-contanome");
-                console.log(nome)
                 $.ajax({
                     async: true,
                     type: 'post',
@@ -112,14 +111,12 @@
                     let value = $(this).val();
                     if (value === "-- Selecione os participantes --") return;
                     let data = { IdConta: value, IdEvento: @Model.Idevento};
-                    console.log("alo")
                     $.ajax({
                         async: true,
                         type: 'POST',
                         data: data,
                         url: '/ContaEventos/Create/',
                         success: function (res) {
-                            console.log(res)
                             $(`option[value="${res[0].idconta}"]`).remove();
                             $("#conta-eventos")
                                 .append(`<div class="conta-evento" data-idconta="${res[0].idconta}" data-contanome="${res[0].nome}"> <span>${res[0].nome} <img src="/img/x.png" width="12" class="clickable" id="${res[0].idContaEventos}" /></span> </div>`)
